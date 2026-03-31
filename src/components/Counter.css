@@ -1,0 +1,41 @@
+.counter-card {
+  gap: 2rem;
+}
+
+.counter-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 12px;
+  border: 1px inset rgba(255, 255, 255, 0.05);
+}
+
+.count-value-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.count-value {
+  font-size: 4.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.button-group .btn {
+  flex: 1;
+  gap: 0.5rem;
+}
