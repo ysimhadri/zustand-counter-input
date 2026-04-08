@@ -4,7 +4,8 @@ const bankLinks = [
     'https://www.citi.com/?loginScreenId=inactivityHomePage',
     'https://www.wellsfargo.com/',
     'https://www.americanexpress.com/en-us/account/login?inav=iNavLnkLog',
-    'https://verified.capitalone.com/auth/signin?Product=ENTERPRISE&goto_url=https:%2F%2Fmyaccounts.capitalone.com%2F%23%2Fwelcome#/welcome'
+    'https://verified.capitalone.com/auth/signin?Product=ENTERPRISE&goto_url=https:%2F%2Fmyaccounts.capitalone.com%2F%23%2Fwelcome#/welcome',
+    'https://chase.com'
 ];
 
 const merchantLinks = ['https://www.amazon.com', 'https://www.bestbuy.com', 'https://www.greentoe.com'];

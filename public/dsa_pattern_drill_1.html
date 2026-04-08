@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DSA Pattern Drill</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f5f5f3;
+    --bg-tertiary: #eeede9;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666660;
+    --border: rgba(0,0,0,0.12);
+    --border-secondary: rgba(0,0,0,0.22);
+    --blue-bg: #E6F1FB;
+    --blue-text: #185FA5;
+    --blue-accent: #378ADD;
+    --green-bg: #EAF3DE;
+    --green-text: #3B6D11;
+    --amber-bg: #FAEEDA;
+    --amber-text: #854F0B;
+    --red-bg: #FCEBEB;
+    --red-text: #A32D2D;
+    --teal-accent: #1D9E75;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --font: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg-secondary: #252523;
+      --bg-tertiary: #2e2e2c;
+      --text-primary: #f0ede6;
+      --text-secondary: #999994;
+      --border: rgba(255,255,255,0.1);
+      --border-secondary: rgba(255,255,255,0.18);
+      --blue-bg: #042C53;
+      --blue-text: #85B7EB;
+      --green-bg: #173404;
+      --green-text: #C0DD97;
+      --amber-bg: #412402;
+      --amber-text: #FAC775;
+      --red-bg: #501313;
+      --red-text: #F7C1C1;
+    }
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text-primary); min-height: 100vh; }
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap');
+
+  .page { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 10px; }
+  .title { font-size: 22px; font-weight: 500; color: var(--text-primary); }
+  .subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  .stats { display: flex; gap: 8px; }
+  .stat { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 6px 14px; font-size: 13px; color: var(--text-secondary); border: 0.5px solid var(--border); }
+  .stat span { font-weight: 500; color: var(--text-primary); }
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tag { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 0.5px solid var(--border-secondary); cursor: pointer; background: var(--bg); color: var(--text-secondary); transition: all 0.15s; user-select: none; }
+  .tag:hover { background: var(--bg-secondary); }
+  .tag.active { background: var(--blue-accent); color: #fff; border-color: var(--blue-accent); }
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; transition: border-color 0.15s; }
+  .card:hover { border-color: var(--border-secondary); }
+  .problem-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .badge-easy { background: var(--green-bg); color: var(--green-text); }
+  .badge-medium { background: var(--amber-bg); color: var(--amber-text); }
+  .badge-hard { background: var(--red-bg); color: var(--red-text); }
+  .badge-pattern { background: var(--blue-bg); color: var(--blue-text); }
+  .problem-title { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+  .problem-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1rem; }
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { font-family: var(--font); font-size: 13px; background: none; border: 0.5px solid var(--border-secondary); border-radius: var(--radius-md); padding: 6px 14px; cursor: pointer; color: var(--text-primary); transition: background 0.12s; }
+  button:hover { background: var(--bg-secondary); }
+  .hint-box { background: var(--bg-secondary); border-left: 3px solid var(--blue-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 10px 14px; font-size: 13px; color: var(--text-secondary); margin-top: 12px; line-height: 1.65; display: none; }
+  .answer-box { background: var(--bg-secondary); border-left: 3px solid var(--teal-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 10px 14px; font-size: 13px; color: var(--text-secondary); margin-top: 12px; line-height: 1.65; display: none; }
+  .answer-box strong { color: var(--text-primary); font-weight: 500; display: block; margin-bottom: 4px; }
+  .code-block { background: var(--bg-tertiary); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); margin-top: 10px; white-space: pre; overflow-x: auto; line-height: 1.7; }
+  .empty { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 14px; }
+  .progress-bar-wrap { background: var(--bg-secondary); border-radius: 20px; height: 4px; margin-bottom: 1.5rem; overflow: hidden; border: 0.5px solid var(--border); }
+  .progress-bar { height: 100%; background: var(--blue-accent); border-radius: 20px; transition: width 0.3s ease; }
+  .section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+  .section-label:first-child { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="title">DSA pattern drill</div>
+      <div class="subtitle">15 problems across 9 patterns — for interview prep</div>
+    </div>
+    <div class="stats">
+      <div class="stat">Showing <span id="shown-count">0</span></div>
+      <div class="stat">Total <span id="total-count">0</span></div>
+    </div>
+  </div>
+
+  <div class="filter-bar" id="filter-bar"></div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+  <div id="problem-list"></div>
+</div>
+
+<script>
+const problems = [
+  { id:1, title:"Two Sum", difficulty:"easy", pattern:"HashMap", desc:"Given an array of integers and a target, return indices of the two numbers that add up to target.", hint:"Store each number's index as you scan. For each element, check if (target - element) already exists in the map.", answer:"HashMap for O(n) lookup.", code:`Map<Integer,Integer> map = new HashMap<>();
+for(int i = 0; i < nums.length; i++){
+  int comp = target - nums[i];
+  if(map.containsKey(comp)) return new int[]{map.get(comp), i};
+  map.put(nums[i], i);
+}` },
+  { id:2, title:"Binary Search", difficulty:"easy", pattern:"Binary Search", desc:"Given a sorted array of integers, find the index of target. Return -1 if not found.", hint:"Use three pointers: left, right, mid. If arr[mid] < target, search right half. Otherwise left half.", answer:"Classic binary search template — O(log n).", code:`int l = 0, r = arr.length - 1;
+while(l <= r){
+  int mid = l + (r - l) / 2;
+  if(arr[mid] == target) return mid;
+  else if(arr[mid] < target) l = mid + 1;
+  else r = mid - 1;
+}
+return -1;` },
+  { id:3, title:"Valid Palindrome", difficulty:"easy", pattern:"Two Pointers", desc:"A string is a palindrome if it reads the same forward and backward (ignore non-alphanumeric, case-insensitive). Is the given string a palindrome?", hint:"Place one pointer at start, one at end. Skip non-alphanumeric chars. Compare and move inward.", answer:"Two pointers converging from both ends.", code:`int l = 0, r = s.length() - 1;
+while(l < r){
+  while(l < r && !Character.isLetterOrDigit(s.charAt(l))) l++;
+  while(l < r && !Character.isLetterOrDigit(s.charAt(r))) r--;
+  if(Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) return false;
+  l++; r--;
+}
+return true;` },
+  { id:4, title:"Longest Substring Without Repeating Chars", difficulty:"medium", pattern:"Sliding Window", desc:"Given a string, find the length of the longest substring without repeating characters.", hint:"Sliding window with a HashSet. Expand right pointer, and when a duplicate is found, shrink from left until the duplicate is removed.", answer:"Sliding window + HashSet to track the current window.", code:`Set<Character> set = new HashSet<>();
+int l = 0, max = 0;
+for(int r = 0; r < s.length(); r++){
+  while(set.contains(s.charAt(r))) set.remove(s.charAt(l++));
+  set.add(s.charAt(r));
+  max = Math.max(max, r - l + 1);
+}
+return max;` },
+  { id:5, title:"Climbing Stairs", difficulty:"easy", pattern:"Dynamic Programming", desc:"You can climb 1 or 2 steps at a time. How many distinct ways are there to reach the top of n stairs?", hint:"Ways to reach step n = ways to reach (n-1) + ways to reach (n-2). Sound familiar?", answer:"Classic DP — same recurrence as Fibonacci.", code:`int a = 1, b = 1;
+for(int i = 2; i <= n; i++){
+  int c = a + b; a = b; b = c;
+}
+return b;` },
+  { id:6, title:"Maximum Subarray", difficulty:"medium", pattern:"Greedy", desc:"Find the contiguous subarray with the largest sum (Kadane's algorithm).", hint:"At each element, decide: extend the previous subarray or start fresh? Extend if previous sum > 0.", answer:"Kadane's algorithm — greedy local choice at each step.", code:`int maxSum = nums[0], cur = nums[0];
+for(int i = 1; i < nums.length; i++){
+  cur = Math.max(nums[i], cur + nums[i]);
+  maxSum = Math.max(maxSum, cur);
+}
+return maxSum;` },
+  { id:7, title:"Number of Islands", difficulty:"medium", pattern:"DFS", desc:"Given a 2D grid of '1's (land) and '0's (water), count the number of islands.", hint:"When you find a '1', do a DFS to mark all connected land as visited. Count how many times you start a new DFS.", answer:"DFS from each unvisited land cell, marking all connected cells.", code:`int count = 0;
+for(int i = 0; i < grid.length; i++)
+  for(int j = 0; j < grid[0].length; j++)
+    if(grid[i][j] == '1'){ dfs(grid, i, j); count++; }
+// dfs marks all connected '1's as '0'
+return count;` },
+  { id:8, title:"Word Ladder", difficulty:"hard", pattern:"BFS", desc:"Given beginWord and endWord, find the shortest transformation sequence length, changing one letter at a time. Each intermediate word must be in the word list.", hint:"BFS gives shortest path. Each level = one transformation. Try changing each character of the current word to a–z.", answer:"BFS — each level represents one transformation step.", code:`Queue<String> q = new LinkedList<>();
+q.add(beginWord); int steps = 1;
+while(!q.isEmpty()){
+  int size = q.size();
+  for(int i = 0; i < size; i++){
+    String word = q.poll();
+    if(word.equals(endWord)) return steps;
+    // try all 1-char variations, add to queue if in wordSet
+  }
+  steps++;
+}
+return 0;` },
+  { id:9, title:"Merge Intervals", difficulty:"medium", pattern:"Greedy", desc:"Given a list of intervals, merge all overlapping intervals and return the result.", hint:"Sort by start time. If current interval overlaps last merged (start <= last end), extend the last end. Otherwise add new interval.", answer:"Sort + greedy merge scan.", code:`Arrays.sort(intervals, (a,b) -> a[0] - b[0]);
+List<int[]> res = new ArrayList<>();
+for(int[] i : intervals){
+  if(res.isEmpty() || res.get(res.size()-1)[1] < i[0]) res.add(i);
+  else res.get(res.size()-1)[1] = Math.max(res.get(res.size()-1)[1], i[1]);
+}` },
+  { id:10, title:"Linked List Cycle", difficulty:"easy", pattern:"Fast & Slow Pointer", desc:"Given the head of a linked list, determine if it has a cycle.", hint:"Slow moves 1 step, fast moves 2 steps. If there's a cycle, they will eventually meet.", answer:"Floyd's cycle detection — fast & slow pointer.", code:`ListNode slow = head, fast = head;
+while(fast != null && fast.next != null){
+  slow = slow.next;
+  fast = fast.next.next;
+  if(slow == fast) return true;
+}
+return false;` },
+  { id:11, title:"Reverse Linked List", difficulty:"easy", pattern:"Two Pointers", desc:"Reverse a singly linked list iteratively. Return the new head.", hint:"Use a 'prev' pointer initialized to null. At each step: save next, point current to prev, advance both.", answer:"Iterative with prev pointer.", code:`ListNode prev = null, cur = head;
+while(cur != null){
+  ListNode next = cur.next;
+  cur.next = prev;
+  prev = cur; cur = next;
+}
+return prev;` },
+  { id:12, title:"Coin Change", difficulty:"medium", pattern:"Dynamic Programming", desc:"Given coin denominations and an amount, find the fewest coins needed to make up that amount. Return -1 if not possible.", hint:"dp[i] = min coins to make amount i. For each amount, try all denominations.", answer:"Bottom-up DP. dp[0]=0, dp[i]=min(dp[i], dp[i-coin]+1).", code:`int[] dp = new int[amount + 1];
+Arrays.fill(dp, amount + 1);
+dp[0] = 0;
+for(int i = 1; i <= amount; i++)
+  for(int c : coins)
+    if(c <= i) dp[i] = Math.min(dp[i], dp[i-c] + 1);
+return dp[amount] > amount ? -1 : dp[amount];` },
+  { id:13, title:"Top K Frequent Elements", difficulty:"medium", pattern:"Heap", desc:"Given an integer array, return the k most frequent elements.", hint:"Count frequencies with a HashMap, then use a min-heap of size k to track the top k elements efficiently.", answer:"HashMap for counts + min-heap of size k.", code:`Map<Integer,Integer> freq = new HashMap<>();
+for(int n : nums) freq.merge(n, 1, Integer::sum);
+PriorityQueue<Integer> heap = new PriorityQueue<>((a,b) -> freq.get(a) - freq.get(b));
+for(int n : freq.keySet()){
+  heap.offer(n);
+  if(heap.size() > k) heap.poll();
+}` },
+  { id:14, title:"Combination Sum", difficulty:"medium", pattern:"Backtracking", desc:"Find all unique combinations of candidates where chosen numbers sum to target. The same number may be reused.", hint:"At each step, include the current candidate (stay on same index) or skip to next. Use recursion with a running sum.", answer:"Backtracking — explore all paths, prune when sum > target.", code:`void bt(int[] cands, int target, int start, List<Integer> cur, List<List<Integer>> res){
+  if(target == 0){ res.add(new ArrayList<>(cur)); return; }
+  for(int i = start; i < cands.length; i++){
+    if(cands[i] > target) break;
+    cur.add(cands[i]);
+    bt(cands, target - cands[i], i, cur, res);
+    cur.remove(cur.size() - 1);
+  }
+}` },
+  { id:15, title:"Implement Trie", difficulty:"medium", pattern:"Trie", desc:"Implement a Trie (prefix tree) with insert, search, and startsWith methods.", hint:"Each node has an array of 26 children (one per letter) and an isEnd flag. All three methods traverse char by char.", answer:"Array of 26 TrieNode children + isEnd flag per node.", code:`class TrieNode { TrieNode[] ch = new TrieNode[26]; boolean end; }
+TrieNode root = new TrieNode();
+void insert(String w){
+  TrieNode n = root;
+  for(char c : w.toCharArray()){
+    if(n.ch[c-'a'] == null) n.ch[c-'a'] = new TrieNode();
+    n = n.ch[c-'a'];
+  }
+  n.end = true;
+}` },
+];
+
+const patterns = [...new Set(problems.map(p => p.pattern))];
+let activePatterns = new Set(patterns);
+
+function renderFilters(){
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = '';
+  const allBtn = document.createElement('div');
+  allBtn.className = 'tag' + (activePatterns.size === patterns.length ? ' active' : '');
+  allBtn.textContent = 'All patterns';
+  allBtn.onclick = () => { activePatterns = new Set(patterns); renderFilters(); renderProblems(); };
+  bar.appendChild(allBtn);
+  patterns.forEach(p => {
+    const t = document.createElement('div');
+    t.className = 'tag' + (activePatterns.has(p) ? ' active' : '');
+    t.textContent = p;
+    t.onclick = () => {
+      if(activePatterns.size === patterns.length) {
+        // all active → isolate clicked one
+        activePatterns = new Set([p]);
+      } else if(activePatterns.has(p) && activePatterns.size === 1) {
+        // only this one active → reset to all
+        activePatterns = new Set(patterns);
+      } else {
+        // isolate clicked one
+        activePatterns = new Set([p]);
+      }
+      renderFilters(); renderProblems();
+    };
+    bar.appendChild(t);
+  });
+}
+
+function renderProblems(){
+  const filtered = problems.filter(p => activePatterns.has(p.pattern));
+  document.getElementById('shown-count').textContent = filtered.length;
+  document.getElementById('total-count').textContent = problems.length;
+  const pct = Math.round((filtered.length / problems.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  const list = document.getElementById('problem-list');
+  list.innerHTML = '';
+  if(!filtered.length){ list.innerHTML = '<div class="empty">No problems match the selected filters.</div>'; return; }
+
+  const byPattern = {};
+  filtered.forEach(p => { if(!byPattern[p.pattern]) byPattern[p.pattern] = []; byPattern[p.pattern].push(p); });
+
+  Object.entries(byPattern).forEach(([pat, probs]) => {
+    const label = document.createElement('div');
+    label.className = 'section-label';
+    label.textContent = pat;
+    list.appendChild(label);
+    probs.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="problem-meta">
+          <span class="badge badge-${p.difficulty}">${p.difficulty}</span>
+          <span class="badge badge-pattern">${p.pattern}</span>
+        </div>
+        <div class="problem-title">${p.title}</div>
+        <div class="problem-desc">${p.desc}</div>
+        <div class="action-row">
+          <button onclick="toggle('hint-${p.id}')">Hint</button>
+          <button onclick="toggle('answer-${p.id}')">Reveal approach</button>
+        </div>
+        <div id="hint-${p.id}" class="hint-box">${p.hint}</div>
+        <div id="answer-${p.id}" class="answer-box">
+          <strong>Pattern: ${p.pattern} — ${p.answer}</strong>
+          <div class="code-block">${p.code}</div>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  });
+}
+
+window.toggle = function(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+};
+
+document.getElementById('total-count').textContent = problems.length;
+renderFilters();
+renderProblems();
+</script>
+</body>
+</html>
