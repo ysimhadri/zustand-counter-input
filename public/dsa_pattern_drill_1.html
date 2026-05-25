@@ -7,53 +7,34 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #ffffff;
-    --bg-secondary: #f5f5f3;
-    --bg-tertiary: #eeede9;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666660;
-    --border: rgba(0,0,0,0.12);
-    --border-secondary: rgba(0,0,0,0.22);
-    --blue-bg: #E6F1FB;
-    --blue-text: #185FA5;
-    --blue-accent: #378ADD;
-    --green-bg: #EAF3DE;
-    --green-text: #3B6D11;
-    --amber-bg: #FAEEDA;
-    --amber-text: #854F0B;
-    --red-bg: #FCEBEB;
-    --red-text: #A32D2D;
+    --bg: #ffffff; --bg-secondary: #f5f5f3; --bg-tertiary: #eeede9;
+    --text-primary: #1a1a1a; --text-secondary: #666660;
+    --border: rgba(0,0,0,0.12); --border-secondary: rgba(0,0,0,0.22);
+    --blue-bg: #E6F1FB; --blue-text: #185FA5; --blue-accent: #378ADD;
+    --green-bg: #EAF3DE; --green-text: #3B6D11;
+    --amber-bg: #FAEEDA; --amber-text: #854F0B;
+    --red-bg: #FCEBEB; --red-text: #A32D2D;
     --teal-accent: #1D9E75;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    --radius-md: 8px; --radius-lg: 12px;
     --font: 'DM Sans', system-ui, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1c1c1a;
-      --bg-secondary: #252523;
-      --bg-tertiary: #2e2e2c;
-      --text-primary: #f0ede6;
-      --text-secondary: #999994;
-      --border: rgba(255,255,255,0.1);
-      --border-secondary: rgba(255,255,255,0.18);
-      --blue-bg: #042C53;
-      --blue-text: #85B7EB;
-      --green-bg: #173404;
-      --green-text: #C0DD97;
-      --amber-bg: #412402;
-      --amber-text: #FAC775;
-      --red-bg: #501313;
-      --red-text: #F7C1C1;
+      --bg: #1c1c1a; --bg-secondary: #252523; --bg-tertiary: #2e2e2c;
+      --text-primary: #f0ede6; --text-secondary: #999994;
+      --border: rgba(255,255,255,0.1); --border-secondary: rgba(255,255,255,0.18);
+      --blue-bg: #042C53; --blue-text: #85B7EB;
+      --green-bg: #173404; --green-text: #C0DD97;
+      --amber-bg: #412402; --amber-text: #FAC775;
+      --red-bg: #501313; --red-text: #F7C1C1;
     }
   }
   body { font-family: var(--font); background: var(--bg); color: var(--text-primary); min-height: 100vh; }
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap');
-
-  .page { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page { width: 100%; padding: 2rem 2rem; }
   .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 10px; }
-  .title { font-size: 22px; font-weight: 500; color: var(--text-primary); }
+  .title { font-size: 22px; font-weight: 500; }
   .subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
   .stats { display: flex; gap: 8px; }
   .stat { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 6px 14px; font-size: 13px; color: var(--text-secondary); border: 0.5px solid var(--border); }
@@ -62,28 +43,41 @@
   .tag { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 0.5px solid var(--border-secondary); cursor: pointer; background: var(--bg); color: var(--text-secondary); transition: all 0.15s; user-select: none; }
   .tag:hover { background: var(--bg-secondary); }
   .tag.active { background: var(--blue-accent); color: #fff; border-color: var(--blue-accent); }
-  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; transition: border-color 0.15s; }
+  .progress-bar-wrap { background: var(--bg-secondary); border-radius: 20px; height: 4px; margin-bottom: 1.5rem; overflow: hidden; border: 0.5px solid var(--border); }
+  .progress-bar { height: 100%; background: var(--blue-accent); border-radius: 20px; transition: width 0.3s ease; }
+  .section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+  .section-label:first-child { margin-top: 0; }
+  /* Card two-column layout */
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1rem; transition: border-color 0.15s; overflow: hidden; display: flex; }
   .card:hover { border-color: var(--border-secondary); }
+  .card-left { width: 252px; flex-shrink: 0; border-right: 0.5px solid var(--border); padding: 1rem; background: var(--bg-secondary); }
+  .card-right { flex: 1; padding: 1.25rem; min-width: 0; }
+  .diagram { border-radius: var(--radius-md); overflow: hidden; background: var(--bg); border: 0.5px solid var(--border); }
+  .diagram svg { width: 100%; height: auto; display: block; }
   .problem-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
   .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
   .badge-easy { background: var(--green-bg); color: var(--green-text); }
   .badge-medium { background: var(--amber-bg); color: var(--amber-text); }
   .badge-hard { background: var(--red-bg); color: var(--red-text); }
   .badge-pattern { background: var(--blue-bg); color: var(--blue-text); }
-  .problem-title { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
-  .problem-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1rem; }
-  .action-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  button { font-family: var(--font); font-size: 13px; background: none; border: 0.5px solid var(--border-secondary); border-radius: var(--radius-md); padding: 6px 14px; cursor: pointer; color: var(--text-primary); transition: background 0.12s; }
-  button:hover { background: var(--bg-secondary); }
-  .hint-box { background: var(--bg-secondary); border-left: 3px solid var(--blue-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 10px 14px; font-size: 13px; color: var(--text-secondary); margin-top: 12px; line-height: 1.65; display: none; }
-  .answer-box { background: var(--bg-secondary); border-left: 3px solid var(--teal-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 10px 14px; font-size: 13px; color: var(--text-secondary); margin-top: 12px; line-height: 1.65; display: none; }
-  .answer-box strong { color: var(--text-primary); font-weight: 500; display: block; margin-bottom: 4px; }
-  .code-block { background: var(--bg-tertiary); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 12px 14px; font-family: var(--font-mono); font-size: 12px; color: var(--text-primary); margin-top: 10px; white-space: pre; overflow-x: auto; line-height: 1.7; }
+  .problem-title { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .problem-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+  button { font-family: var(--font); font-size: 12px; background: none; border: 0.5px solid var(--border-secondary); border-radius: var(--radius-md); padding: 6px 14px; cursor: pointer; color: var(--text-primary); transition: background 0.12s; }
+  button:hover { background: var(--bg-tertiary); }
+  .btn-hint { border-color: var(--blue-accent); color: var(--blue-text); }
+  .btn-hint:hover { background: var(--blue-bg); }
+  .btn-reveal { border-color: var(--teal-accent); color: var(--teal-accent); }
+  .btn-reveal:hover { background: var(--green-bg); }
+  .hint-box { background: var(--bg); border-left: 3px solid var(--blue-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 9px 11px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; display: none; }
+  .answer-box { background: var(--bg); border-left: 3px solid var(--teal-accent); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 9px 11px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; display: none; }
+  .answer-box strong { color: var(--text-primary); font-weight: 500; display: block; margin-bottom: 6px; font-size: 11px; }
+  .code-block { background: var(--bg-tertiary); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 9px 11px; font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); margin-top: 7px; white-space: pre; overflow-x: auto; line-height: 1.7; }
   .empty { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); font-size: 14px; }
-  .progress-bar-wrap { background: var(--bg-secondary); border-radius: 20px; height: 4px; margin-bottom: 1.5rem; overflow: hidden; border: 0.5px solid var(--border); }
-  .progress-bar { height: 100%; background: var(--blue-accent); border-radius: 20px; transition: width 0.3s ease; }
-  .section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; margin-top: 1.5rem; }
-  .section-label:first-child { margin-top: 0; }
+  @media (max-width: 600px) {
+    .card { flex-direction: column; }
+    .card-left { width: 100%; border-right: none; border-bottom: 0.5px solid var(--border); }
+  }
 </style>
 </head>
 <body>
@@ -98,13 +92,375 @@
       <div class="stat">Total <span id="total-count">0</span></div>
     </div>
   </div>
-
   <div class="filter-bar" id="filter-bar"></div>
   <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
   <div id="problem-list"></div>
 </div>
 
 <script>
+const diagrams = {
+  1: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">nums=[3,2,4]  target=6</text>
+  <rect x="4" y="18" width="28" height="22" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="18" y="33" text-anchor="middle" font-size="12" fill="var(--blue-text)" font-family="monospace">3</text>
+  <rect x="36" y="18" width="28" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="50" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">2</text>
+  <rect x="68" y="18" width="28" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="82" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">4</text>
+  <text x="100" y="34" font-size="15" fill="var(--text-secondary)" font-family="sans-serif">→</text>
+  <rect x="116" y="12" width="112" height="74" rx="5" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="172" y="24" text-anchor="middle" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">HashMap</text>
+  <line x1="116" y1="28" x2="228" y2="28" stroke="var(--border)" stroke-width="0.5"/>
+  <text x="124" y="42" font-size="10" fill="var(--text-primary)" font-family="monospace">3 → idx 0</text>
+  <text x="124" y="56" font-size="10" fill="var(--text-primary)" font-family="monospace">2 → idx 1</text>
+  <text x="124" y="72" font-size="10" fill="var(--green-text)" font-family="monospace">✓ 6-4=2 found!</text>
+  <text x="4" y="102" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">comp = target − num → O(1) lookup</text>
+</svg>`,
+
+  2: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">sorted array, find target=5</text>
+  <rect x="4" y="18" width="32" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="20" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">1</text>
+  <rect x="40" y="18" width="32" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="56" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">3</text>
+  <rect x="76" y="18" width="32" height="24" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="92" y="34" text-anchor="middle" font-size="12" fill="var(--blue-text)" font-family="monospace">5</text>
+  <rect x="112" y="18" width="32" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="128" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">7</text>
+  <rect x="148" y="18" width="32" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="164" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">9</text>
+  <line x1="20" y1="42" x2="20" y2="50" stroke="var(--blue-text)" stroke-width="1"/>
+  <text x="20" y="60" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="monospace">L</text>
+  <line x1="92" y1="42" x2="92" y2="50" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="92" y="60" text-anchor="middle" font-size="9" fill="var(--blue-accent)" font-family="monospace">M</text>
+  <line x1="164" y1="42" x2="164" y2="50" stroke="var(--blue-text)" stroke-width="1"/>
+  <text x="164" y="60" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="monospace">R</text>
+  <text x="4" y="76" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">arr[M] &lt; target → L = mid+1</text>
+  <text x="4" y="89" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">arr[M] &gt; target → R = mid-1</text>
+  <text x="4" y="102" font-size="9" fill="var(--green-text)" font-family="sans-serif">arr[M] == target → return mid ✓</text>
+</svg>`,
+
+  3: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">s = "racecar"</text>
+  <rect x="4" y="18" width="22" height="22" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="15" y="33" text-anchor="middle" font-size="12" fill="var(--blue-text)" font-family="monospace">r</text>
+  <rect x="29" y="18" width="22" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="40" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">a</text>
+  <rect x="54" y="18" width="22" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="65" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">c</text>
+  <rect x="79" y="18" width="22" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="90" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">e</text>
+  <rect x="104" y="18" width="22" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="115" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">c</text>
+  <rect x="129" y="18" width="22" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="140" y="33" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">a</text>
+  <rect x="154" y="18" width="22" height="22" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="165" y="33" text-anchor="middle" font-size="12" fill="var(--blue-text)" font-family="monospace">r</text>
+  <line x1="15" y1="40" x2="15" y2="48" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="15" y="58" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="monospace">L</text>
+  <line x1="165" y1="40" x2="165" y2="48" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="165" y="58" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="monospace">R</text>
+  <path d="M22,65 Q90,52 158,65" stroke="var(--blue-accent)" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+  <text x="90" y="61" text-anchor="middle" font-size="9" fill="var(--blue-accent)" font-family="sans-serif">compare → converge</text>
+  <text x="4" y="80" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">s[L]==s[R] → L++, R--</text>
+  <text x="4" y="93" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">skip non-alphanumeric</text>
+  <text x="4" y="106" font-size="9" fill="var(--green-text)" font-family="sans-serif">L &gt;= R → palindrome ✓</text>
+</svg>`,
+
+  4: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">s = "abcbc"  find longest unique window</text>
+  <rect x="4" y="18" width="28" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="18" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">a</text>
+  <rect x="36" y="18" width="28" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="50" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">b</text>
+  <rect x="68" y="18" width="28" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="82" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">c</text>
+  <rect x="100" y="18" width="28" height="24" rx="3" fill="var(--amber-bg)" stroke="var(--amber-text)" stroke-width="2"/>
+  <text x="114" y="34" text-anchor="middle" font-size="12" fill="var(--amber-text)" font-family="monospace">b</text>
+  <rect x="132" y="18" width="28" height="24" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="146" y="34" text-anchor="middle" font-size="12" fill="var(--text-primary)" font-family="monospace">c</text>
+  <rect x="4" y="17" width="92" height="26" rx="3" fill="none" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="50" y="56" text-anchor="middle" font-size="9" fill="var(--blue-accent)" font-family="sans-serif">window [a,b,c] len=3</text>
+  <text x="4" y="70" font-size="9" fill="var(--text-secondary)" font-family="monospace">L</text>
+  <text x="180" y="34" text-anchor="middle" font-size="9" fill="var(--text-secondary)" font-family="monospace">R→</text>
+  <text x="4" y="82" font-size="9" fill="var(--amber-text)" font-family="sans-serif">dup 'b'! shrink L→ until removed</text>
+  <text x="4" y="95" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">HashSet tracks current window</text>
+  <text x="4" y="107" font-size="9" fill="var(--green-text)" font-family="sans-serif">max = R − L + 1 = 3 ✓</text>
+</svg>`,
+
+  5: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">dp[i] = dp[i-1] + dp[i-2]  (Fibonacci)</text>
+  <rect x="8" y="18" width="34" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="25" y="33" text-anchor="middle" font-size="10" fill="var(--text-secondary)" font-family="monospace">dp[0]=1</text>
+  <rect x="50" y="18" width="34" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="67" y="33" text-anchor="middle" font-size="10" fill="var(--text-secondary)" font-family="monospace">dp[1]=1</text>
+  <rect x="92" y="18" width="34" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="109" y="33" text-anchor="middle" font-size="10" fill="var(--text-secondary)" font-family="monospace">dp[2]=2</text>
+  <rect x="134" y="18" width="34" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="151" y="33" text-anchor="middle" font-size="10" fill="var(--text-secondary)" font-family="monospace">dp[3]=3</text>
+  <rect x="176" y="18" width="34" height="22" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="193" y="33" text-anchor="middle" font-size="10" fill="var(--blue-text)" font-family="monospace">dp[4]=5</text>
+  <line x1="25" y1="40" x2="109" y2="52" stroke="var(--border-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="67" y1="40" x2="109" y2="52" stroke="var(--border-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="96" y="62" text-anchor="middle" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">1+1=2</text>
+  <line x1="109" y1="40" x2="193" y2="52" stroke="var(--border-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="151" y1="40" x2="193" y2="52" stroke="var(--border-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="175" y="62" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="sans-serif">2+3=5</text>
+  <text x="4" y="78" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">int a=1, b=1  →  c = a+b; a=b; b=c</text>
+  <text x="4" y="91" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">only 2 variables needed (O(1) space)</text>
+  <text x="4" y="104" font-size="9" fill="var(--green-text)" font-family="sans-serif">n stairs → Fibonacci(n+1) ways ✓</text>
+</svg>`,
+
+  6: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">Kadane's: reset when extending hurts</text>
+  <rect x="4" y="18" width="30" height="22" rx="3" fill="var(--red-bg)" stroke="var(--red-text)" stroke-width="1"/>
+  <text x="19" y="33" text-anchor="middle" font-size="10" fill="var(--red-text)" font-family="monospace">-2</text>
+  <rect x="38" y="18" width="30" height="22" rx="3" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1"/>
+  <text x="53" y="33" text-anchor="middle" font-size="10" fill="var(--green-text)" font-family="monospace">1</text>
+  <rect x="72" y="18" width="30" height="22" rx="3" fill="var(--red-bg)" stroke="var(--red-text)" stroke-width="1"/>
+  <text x="87" y="33" text-anchor="middle" font-size="10" fill="var(--red-text)" font-family="monospace">-3</text>
+  <rect x="106" y="18" width="30" height="22" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="121" y="33" text-anchor="middle" font-size="10" fill="var(--blue-text)" font-family="monospace">4</text>
+  <rect x="140" y="18" width="30" height="22" rx="3" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="155" y="33" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">-1</text>
+  <rect x="174" y="18" width="30" height="22" rx="3" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="189" y="33" text-anchor="middle" font-size="10" fill="var(--blue-text)" font-family="monospace">2</text>
+  <text x="4" y="52" font-size="8" fill="var(--text-secondary)" font-family="sans-serif">cur:</text>
+  <text x="19" y="52" text-anchor="middle" font-size="8" fill="var(--red-text)" font-family="monospace">-2</text>
+  <text x="53" y="52" text-anchor="middle" font-size="8" fill="var(--green-text)" font-family="monospace">1</text>
+  <text x="87" y="52" text-anchor="middle" font-size="8" fill="var(--red-text)" font-family="monospace">-2</text>
+  <text x="121" y="52" text-anchor="middle" font-size="8" fill="var(--blue-text)" font-family="monospace">4↺</text>
+  <text x="155" y="52" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">3</text>
+  <text x="189" y="52" text-anchor="middle" font-size="8" fill="var(--blue-text)" font-family="monospace">5</text>
+  <text x="4" y="66" font-size="9" fill="var(--amber-text)" font-family="sans-serif">↺ = cur&lt;0, start fresh from next element</text>
+  <text x="4" y="79" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">cur = max(nums[i], cur + nums[i])</text>
+  <text x="4" y="92" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">maxSum = max(maxSum, cur)</text>
+  <text x="4" y="105" font-size="9" fill="var(--green-text)" font-family="sans-serif">answer = 5  subarray [4,-1,2] ✓</text>
+</svg>`,
+
+  7: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">DFS flood fill — count islands</text>
+  <rect x="4" y="18" width="22" height="22" rx="2" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="15" y="33" text-anchor="middle" font-size="11" fill="var(--green-text)" font-family="monospace">1</text>
+  <rect x="28" y="18" width="22" height="22" rx="2" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="39" y="33" text-anchor="middle" font-size="11" fill="var(--green-text)" font-family="monospace">1</text>
+  <rect x="52" y="18" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="63" y="33" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <rect x="76" y="18" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="87" y="33" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <rect x="4" y="42" width="22" height="22" rx="2" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="15" y="57" text-anchor="middle" font-size="11" fill="var(--green-text)" font-family="monospace">1</text>
+  <rect x="28" y="42" width="22" height="22" rx="2" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="39" y="57" text-anchor="middle" font-size="11" fill="var(--green-text)" font-family="monospace">1</text>
+  <rect x="52" y="42" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="63" y="57" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <rect x="76" y="42" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="87" y="57" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <rect x="4" y="66" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="15" y="81" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <rect x="28" y="66" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="39" y="81" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <rect x="52" y="66" width="22" height="22" rx="2" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="63" y="81" text-anchor="middle" font-size="11" fill="var(--blue-text)" font-family="monospace">1</text>
+  <rect x="76" y="66" width="22" height="22" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="87" y="81" text-anchor="middle" font-size="11" fill="var(--text-secondary)" font-family="monospace">0</text>
+  <text x="110" y="30" font-size="10" fill="var(--green-text)" font-family="sans-serif">Island #1</text>
+  <text x="110" y="44" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">DFS marks all</text>
+  <text x="110" y="56" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">connected 1s→0</text>
+  <text x="110" y="76" font-size="10" fill="var(--blue-text)" font-family="sans-serif">Island #2</text>
+  <text x="4" y="102" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">count++ each time new DFS starts</text>
+</svg>`,
+
+  8: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">BFS levels = transformation steps</text>
+  <rect x="86" y="14" width="60" height="18" rx="9" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="116" y="27" text-anchor="middle" font-size="10" fill="var(--blue-text)" font-family="monospace">hit</text>
+  <text x="4" y="27" font-size="8" fill="var(--text-secondary)" font-family="sans-serif">step 1</text>
+  <line x1="105" y1="32" x2="65" y2="44" stroke="var(--border-secondary)" stroke-width="1"/>
+  <line x1="116" y1="32" x2="116" y2="44" stroke="var(--border-secondary)" stroke-width="1"/>
+  <line x1="127" y1="32" x2="167" y2="44" stroke="var(--border-secondary)" stroke-width="1"/>
+  <rect x="30" y="44" width="56" height="18" rx="9" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="58" y="57" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">hot</text>
+  <rect x="90" y="44" width="52" height="18" rx="9" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="116" y="57" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">bit</text>
+  <rect x="146" y="44" width="56" height="18" rx="9" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="174" y="57" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">hat</text>
+  <text x="4" y="57" font-size="8" fill="var(--text-secondary)" font-family="sans-serif">step 2</text>
+  <line x1="58" y1="62" x2="48" y2="74" stroke="var(--border-secondary)" stroke-width="1"/>
+  <rect x="18" y="74" width="56" height="18" rx="9" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="46" y="87" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">dot</text>
+  <text x="80" y="87" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">... →</text>
+  <rect x="150" y="74" width="56" height="18" rx="9" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="178" y="87" text-anchor="middle" font-size="10" fill="var(--green-text)" font-family="monospace">cog ✓</text>
+  <text x="4" y="87" font-size="8" fill="var(--text-secondary)" font-family="sans-serif">step 3</text>
+  <text x="4" y="103" font-size="9" fill="var(--green-text)" font-family="sans-serif">earliest level reached = shortest path</text>
+</svg>`,
+
+  9: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">sort by start → greedy merge scan</text>
+  <line x1="14" y1="96" x2="218" y2="96" stroke="var(--border-secondary)" stroke-width="1"/>
+  <line x1="24" y1="93" x2="24" y2="99" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="24" y="106" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">1</text>
+  <line x1="56" y1="93" x2="56" y2="99" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="56" y="106" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">2</text>
+  <line x1="88" y1="93" x2="88" y2="99" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="88" y="106" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">3</text>
+  <line x1="120" y1="93" x2="120" y2="99" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="120" y="106" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">4</text>
+  <line x1="152" y1="93" x2="152" y2="99" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="152" y="106" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">5</text>
+  <line x1="184" y1="93" x2="184" y2="99" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="184" y="106" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="monospace">6</text>
+  <line x1="24" y1="30" x2="88" y2="30" stroke="var(--blue-accent)" stroke-width="8" stroke-linecap="round"/>
+  <text x="56" y="26" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="sans-serif">[1,3]</text>
+  <line x1="56" y1="50" x2="152" y2="50" stroke="var(--amber-text)" stroke-width="8" stroke-linecap="round"/>
+  <text x="104" y="46" text-anchor="middle" font-size="9" fill="var(--amber-text)" font-family="sans-serif">[2,5]</text>
+  <line x1="184" y1="30" x2="218" y2="30" stroke="var(--green-text)" stroke-width="8" stroke-linecap="round"/>
+  <text x="201" y="26" text-anchor="middle" font-size="9" fill="var(--green-text)" font-family="sans-serif">[6,7]</text>
+  <line x1="24" y1="70" x2="152" y2="70" stroke="var(--teal-accent)" stroke-width="6" stroke-linecap="round"/>
+  <text x="88" y="66" text-anchor="middle" font-size="9" fill="var(--teal-accent)" font-family="sans-serif">merged → [1,5]</text>
+</svg>`,
+
+  10: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">Floyd's cycle detection</text>
+  <circle cx="22" cy="44" r="13" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="22" y="48" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">1</text>
+  <line x1="35" y1="44" x2="51" y2="44" stroke="var(--text-secondary)" stroke-width="1.5"/>
+  <circle cx="64" cy="44" r="13" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="64" y="48" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">2</text>
+  <line x1="77" y1="44" x2="93" y2="44" stroke="var(--text-secondary)" stroke-width="1.5"/>
+  <circle cx="106" cy="44" r="13" fill="var(--amber-bg)" stroke="var(--amber-text)" stroke-width="2"/>
+  <text x="106" y="48" text-anchor="middle" font-size="10" fill="var(--amber-text)" font-family="monospace">3</text>
+  <line x1="119" y1="44" x2="135" y2="44" stroke="var(--text-secondary)" stroke-width="1.5"/>
+  <circle cx="148" cy="44" r="13" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="148" y="48" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">4</text>
+  <line x1="161" y1="44" x2="177" y2="44" stroke="var(--text-secondary)" stroke-width="1.5"/>
+  <circle cx="190" cy="44" r="13" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="190" y="48" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">5</text>
+  <path d="M200,55 Q210,80 165,80 Q128,80 113,58" stroke="var(--red-text)" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+  <text x="165" y="78" font-size="8" fill="var(--red-text)" font-family="sans-serif">cycle</text>
+  <text x="16" y="30" font-size="8" fill="var(--blue-text)" font-family="sans-serif">slow</text>
+  <text x="56" y="30" font-size="8" fill="var(--green-text)" font-family="sans-serif">fast</text>
+  <line x1="22" y1="31" x2="22" y2="31" stroke="var(--blue-accent)" stroke-width="1"/>
+  <text x="4" y="96" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">slow+=1, fast+=2 → meet inside cycle</text>
+  <text x="4" y="108" font-size="9" fill="var(--green-text)" font-family="sans-serif">if fast==null → no cycle ✓</text>
+</svg>`,
+
+  11: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">prev, cur, next — iterative reversal</text>
+  <text x="4" y="26" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">before: 1→2→3→null</text>
+  <text x="4" y="42" font-size="9" fill="var(--amber-text)" font-family="monospace">prev</text>
+  <text x="76" y="42" font-size="9" fill="var(--blue-text)" font-family="monospace">cur</text>
+  <text x="140" y="42" font-size="9" fill="var(--text-secondary)" font-family="monospace">next</text>
+  <text x="10" y="65" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">null</text>
+  <circle cx="74" cy="62" r="13" fill="var(--amber-bg)" stroke="var(--amber-text)" stroke-width="2"/>
+  <text x="74" y="66" text-anchor="middle" font-size="11" fill="var(--amber-text)" font-family="monospace">1</text>
+  <circle cx="126" cy="62" r="13" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="126" y="66" text-anchor="middle" font-size="11" fill="var(--blue-text)" font-family="monospace">2</text>
+  <circle cx="178" cy="62" r="13" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="178" y="66" text-anchor="middle" font-size="11" fill="var(--text-primary)" font-family="monospace">3</text>
+  <line x1="126" y1="50" x2="80" y2="50" stroke="var(--teal-accent)" stroke-width="2"/>
+  <polygon points="82,46 74,50 82,54" fill="var(--teal-accent)"/>
+  <text x="96" y="47" text-anchor="middle" font-size="8" fill="var(--teal-accent)" font-family="sans-serif">flip!</text>
+  <line x1="139" y1="62" x2="165" y2="62" stroke="var(--text-secondary)" stroke-width="1.5"/>
+  <text x="4" y="88" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">cur.next = prev; prev = cur; cur = next</text>
+  <text x="4" y="102" font-size="9" fill="var(--green-text)" font-family="sans-serif">after: null←1←2←3  return prev ✓</text>
+</svg>`,
+
+  12: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">coins=[1,2,5]  amount=6</text>
+  <text x="4" y="24" font-size="8" fill="var(--text-secondary)" font-family="monospace">amt:  0   1   2   3   4   5   6</text>
+  <rect x="4" y="28" width="26" height="20" rx="2" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1"/>
+  <text x="17" y="42" text-anchor="middle" font-size="10" fill="var(--green-text)" font-family="monospace">0</text>
+  <rect x="32" y="28" width="26" height="20" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="45" y="42" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">1</text>
+  <rect x="60" y="28" width="26" height="20" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="73" y="42" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">1</text>
+  <rect x="88" y="28" width="26" height="20" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="101" y="42" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">2</text>
+  <rect x="116" y="28" width="26" height="20" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="129" y="42" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">2</text>
+  <rect x="144" y="28" width="26" height="20" rx="2" fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1"/>
+  <text x="157" y="42" text-anchor="middle" font-size="10" fill="var(--text-primary)" font-family="monospace">1</text>
+  <rect x="172" y="28" width="26" height="20" rx="2" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="2"/>
+  <text x="185" y="42" text-anchor="middle" font-size="10" fill="var(--blue-text)" font-family="monospace">2</text>
+  <text x="4" y="26" font-size="8" fill="var(--text-secondary)" font-family="monospace">dp:</text>
+  <line x1="157" y1="48" x2="180" y2="58" stroke="var(--border-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="73" y1="48" x2="180" y2="58" stroke="var(--border-secondary)" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="4" y="72" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">dp[6] = min over all coins c:</text>
+  <text x="4" y="84" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">  dp[6-1]+1=2, dp[6-2]+1=2, dp[6-5]+1=2</text>
+  <text x="4" y="98" font-size="9" fill="var(--green-text)" font-family="sans-serif">answer = 2  (coin 5 + coin 1) ✓</text>
+</svg>`,
+
+  13: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">min-heap of size k=2  (by frequency)</text>
+  <circle cx="116" cy="36" r="18" fill="var(--amber-bg)" stroke="var(--amber-text)" stroke-width="2"/>
+  <text x="116" y="40" text-anchor="middle" font-size="11" fill="var(--amber-text)" font-family="monospace">n=2</text>
+  <text x="116" y="21" text-anchor="middle" font-size="8" fill="var(--amber-text)" font-family="sans-serif">min (freq=2)</text>
+  <line x1="100" y1="52" x2="72" y2="70" stroke="var(--border-secondary)" stroke-width="1.5"/>
+  <circle cx="62" cy="80" r="18" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="62" y="84" text-anchor="middle" font-size="11" fill="var(--blue-text)" font-family="monospace">n=5</text>
+  <text x="62" y="100" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="sans-serif">freq=5</text>
+  <line x1="132" y1="52" x2="160" y2="70" stroke="var(--border-secondary)" stroke-width="1.5"/>
+  <circle cx="170" cy="80" r="18" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="170" y="84" text-anchor="middle" font-size="11" fill="var(--blue-text)" font-family="monospace">n=3</text>
+  <text x="170" y="100" text-anchor="middle" font-size="8" fill="var(--text-secondary)" font-family="sans-serif">freq=3</text>
+  <text x="4" y="100" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">if size&gt;k → poll min</text>
+  <text x="4" y="108" font-size="9" fill="var(--green-text)" font-family="sans-serif">heap retains top-k by frequency ✓</text>
+</svg>`,
+
+  14: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">candidates=[2,3,6]  target=7</text>
+  <rect x="92" y="14" width="48" height="16" rx="8" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="116" y="26" text-anchor="middle" font-size="9" fill="var(--text-secondary)" font-family="monospace">sum=0</text>
+  <line x1="105" y1="30" x2="58" y2="42" stroke="var(--border-secondary)" stroke-width="1"/>
+  <line x1="116" y1="30" x2="116" y2="42" stroke="var(--border-secondary)" stroke-width="1"/>
+  <line x1="127" y1="30" x2="175" y2="42" stroke="var(--border-secondary)" stroke-width="1"/>
+  <rect x="26" y="42" width="62" height="16" rx="8" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1"/>
+  <text x="57" y="54" text-anchor="middle" font-size="9" fill="var(--blue-text)" font-family="monospace">+2 → 2</text>
+  <rect x="92" y="42" width="48" height="16" rx="8" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1"/>
+  <text x="116" y="54" text-anchor="middle" font-size="9" fill="var(--text-secondary)" font-family="monospace">+3 → 3</text>
+  <rect x="146" y="42" width="62" height="16" rx="8" fill="var(--red-bg)" stroke="var(--red-text)" stroke-width="1"/>
+  <text x="177" y="54" text-anchor="middle" font-size="9" fill="var(--red-text)" font-family="monospace">+6 → 6</text>
+  <line x1="48" y1="58" x2="30" y2="70" stroke="var(--border-secondary)" stroke-width="1"/>
+  <line x1="66" y1="58" x2="84" y2="70" stroke="var(--border-secondary)" stroke-width="1"/>
+  <rect x="4" y="70" width="52" height="16" rx="8" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="30" y="82" text-anchor="middle" font-size="9" fill="var(--green-text)" font-family="monospace">=4 → 7✓</text>
+  <rect x="62" y="70" width="52" height="16" rx="8" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="88" y="82" text-anchor="middle" font-size="9" fill="var(--green-text)" font-family="monospace">=5 → 7✓</text>
+  <text x="162" y="82" font-size="9" fill="var(--red-text)" font-family="sans-serif">prune &gt;7</text>
+  <text x="4" y="100" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">can reuse same index (stay at i)</text>
+  <text x="4" y="108" font-size="9" fill="var(--green-text)" font-family="sans-serif">sum==target → add to result ✓</text>
+</svg>`,
+
+  15: `<svg viewBox="0 0 232 108" xmlns="http://www.w3.org/2000/svg">
+  <text x="4" y="11" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">insert "cat", "car", "hi"</text>
+  <circle cx="116" cy="26" r="11" fill="var(--bg-secondary)" stroke="var(--border-secondary)" stroke-width="1.5"/>
+  <text x="116" y="30" text-anchor="middle" font-size="9" fill="var(--text-secondary)" font-family="monospace">root</text>
+  <line x1="107" y1="36" x2="74" y2="50" stroke="var(--border-secondary)" stroke-width="1"/>
+  <circle cx="68" cy="58" r="11" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="68" y="62" text-anchor="middle" font-size="11" fill="var(--blue-text)" font-family="monospace">c</text>
+  <line x1="68" y1="69" x2="68" y2="79" stroke="var(--border-secondary)" stroke-width="1"/>
+  <circle cx="68" cy="87" r="11" fill="var(--blue-bg)" stroke="var(--blue-accent)" stroke-width="1.5"/>
+  <text x="68" y="91" text-anchor="middle" font-size="11" fill="var(--blue-text)" font-family="monospace">a</text>
+  <line x1="60" y1="96" x2="44" y2="104" stroke="var(--border-secondary)" stroke-width="1"/>
+  <circle cx="38" cy="104" r="9" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="38" y="108" text-anchor="middle" font-size="10" fill="var(--green-text)" font-family="monospace">t●</text>
+  <line x1="76" y1="96" x2="92" y2="104" stroke="var(--border-secondary)" stroke-width="1"/>
+  <circle cx="98" cy="104" r="9" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="98" y="108" text-anchor="middle" font-size="10" fill="var(--green-text)" font-family="monospace">r●</text>
+  <line x1="125" y1="36" x2="158" y2="50" stroke="var(--border-secondary)" stroke-width="1"/>
+  <circle cx="164" cy="58" r="11" fill="var(--amber-bg)" stroke="var(--amber-text)" stroke-width="1.5"/>
+  <text x="164" y="62" text-anchor="middle" font-size="11" fill="var(--amber-text)" font-family="monospace">h</text>
+  <line x1="164" y1="69" x2="164" y2="79" stroke="var(--border-secondary)" stroke-width="1"/>
+  <circle cx="164" cy="87" r="11" fill="var(--green-bg)" stroke="var(--green-text)" stroke-width="1.5"/>
+  <text x="164" y="91" text-anchor="middle" font-size="11" fill="var(--green-text)" font-family="monospace">i●</text>
+  <text x="4" y="84" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">● = isEnd flag</text>
+  <text x="4" y="96" font-size="9" fill="var(--text-secondary)" font-family="sans-serif">26 children[] per node</text>
+  <text x="4" y="108" font-size="9" fill="var(--green-text)" font-family="sans-serif">O(L) insert/search (L=word len) ✓</text>
+</svg>`
+};
+
 const problems = [
   { id:1, title:"Two Sum", difficulty:"easy", pattern:"HashMap", desc:"Given an array of integers and a target, return indices of the two numbers that add up to target.", hint:"Store each number's index as you scan. For each element, check if (target - element) already exists in the map.", answer:"HashMap for O(n) lookup.", code:`Map<Integer,Integer> map = new HashMap<>();
 for(int i = 0; i < nums.length; i++){
@@ -236,16 +592,9 @@ function renderFilters(){
     t.className = 'tag' + (activePatterns.has(p) ? ' active' : '');
     t.textContent = p;
     t.onclick = () => {
-      if(activePatterns.size === patterns.length) {
-        // all active → isolate clicked one
-        activePatterns = new Set([p]);
-      } else if(activePatterns.has(p) && activePatterns.size === 1) {
-        // only this one active → reset to all
-        activePatterns = new Set(patterns);
-      } else {
-        // isolate clicked one
-        activePatterns = new Set([p]);
-      }
+      if(activePatterns.size === patterns.length) activePatterns = new Set([p]);
+      else if(activePatterns.has(p) && activePatterns.size === 1) activePatterns = new Set(patterns);
+      else activePatterns = new Set([p]);
       renderFilters(); renderProblems();
     };
     bar.appendChild(t);
@@ -274,20 +623,25 @@ function renderProblems(){
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <div class="problem-meta">
-          <span class="badge badge-${p.difficulty}">${p.difficulty}</span>
-          <span class="badge badge-pattern">${p.pattern}</span>
+        <div class="card-left">
+          <div class="diagram">${diagrams[p.id]}</div>
         </div>
-        <div class="problem-title">${p.title}</div>
-        <div class="problem-desc">${p.desc}</div>
-        <div class="action-row">
-          <button onclick="toggle('hint-${p.id}')">Hint</button>
-          <button onclick="toggle('answer-${p.id}')">Reveal approach</button>
-        </div>
-        <div id="hint-${p.id}" class="hint-box">${p.hint}</div>
-        <div id="answer-${p.id}" class="answer-box">
-          <strong>Pattern: ${p.pattern} — ${p.answer}</strong>
-          <div class="code-block">${p.code}</div>
+        <div class="card-right">
+          <div class="problem-meta">
+            <span class="badge badge-${p.difficulty}">${p.difficulty}</span>
+            <span class="badge badge-pattern">${p.pattern}</span>
+          </div>
+          <div class="problem-title">${p.title}</div>
+          <div class="problem-desc">${p.desc}</div>
+          <div class="action-row">
+            <button class="btn-hint" onclick="toggle('hint-${p.id}')">Hint</button>
+            <button class="btn-reveal" onclick="toggle('answer-${p.id}')">Reveal approach</button>
+          </div>
+          <div id="hint-${p.id}" class="hint-box">${p.hint}</div>
+          <div id="answer-${p.id}" class="answer-box">
+            <strong>${p.pattern} — ${p.answer}</strong>
+            <div class="code-block">${p.code}</div>
+          </div>
         </div>
       `;
       list.appendChild(card);

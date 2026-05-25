@@ -1,3 +1,24 @@
+# Personal Developer Dashboard
+
+A personal single-page app for learning, practicing, and quick-access tooling — built with React 19, TypeScript, Zustand, and Vite.
+
+## Features
+
+- **Playground** — Interactive Zustand counter + text input demo, quick-launch buttons for banking/merchant sites
+- **Data Structures** — Visual explorer for Arrays, Stacks, Queues, Linked Lists, BSTs, and Hash Maps with complexity notes
+- **React Architecture** — Architecture diagram reference
+- **Interview Prep** — Algorithm wizard + rendered `leetcode-interview-cheatsheet.md` with syntax highlighting
+- **DSA Drill 1** — Embedded drill sheet (`public/dsa_pattern_drill_1.html`)
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

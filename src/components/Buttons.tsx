@@ -8,7 +8,7 @@ const bankLinks = [
     'https://chase.com'
 ];
 
-const merchantLinks = ['https://www.amazon.com', 'https://www.bestbuy.com', 'https://www.greentoe.com'];
+const merchantLinks = ['https://www.amazon.com', 'https://www.bestbuy.com', 'https://www.greentoe.com','https://www.facebook.com'];
 
 
 
